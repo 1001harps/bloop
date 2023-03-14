@@ -1,3 +1,4 @@
+import { clamp } from "./math";
 import { getMidiOutput, triggerNote } from "./midi";
 import { parsePatch } from "./parser";
 import { AsyncResult, Err, Ok } from "./types";
@@ -28,7 +29,9 @@ export class Bloop {
         const step = p.steps[i];
         if (step.type === "NOTE") {
           try {
-            triggerNote(midiOutput, p.channel, step.note);
+            const note = p.settings.octave * 12 + step.note;
+            const clampedNote = clamp(note, 0, 127);
+            triggerNote(midiOutput, p.channel, clampedNote);
           } catch (error) {
             console.error(error);
             clearInterval(interval);
