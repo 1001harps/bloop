@@ -9,6 +9,7 @@ f:0--0--0-3--3--3-a--a--a-5--5--5-
 `;
 
 const bloop = new Bloop();
-const parsedPatch = bloop.loadPatch(patch);
-
-console.log("parsedPatch", parsedPatch);
+const result = await bloop.playPatch(patch);
+if (!result.ok) {
+  console.error(result.error);
+}
